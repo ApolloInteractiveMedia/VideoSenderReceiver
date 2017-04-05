@@ -24,7 +24,7 @@ include_directories(${CMAKE_INSTALL_PREFIX}/include)
 if (UNIX)
   list(APPEND libs ${CMAKE_INSTALL_PREFIX}/lib/libglad.a)
 elseif(WIN32)
-  list(APPEND libs ${CMAKE_INSTALL_PREFIX}/lib/libglad.lib)
+  list(APPEND libs ${CMAKE_INSTALL_PREFIX}/lib/glad.lib)
 endif()
 
 # GLFW
@@ -53,16 +53,15 @@ if (APPLE)
     opus
     URL http://downloads.xiph.org/releases/opus/opus-1.1.4.tar.gz
     UPDATE_COMMAND ""
-    BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./configure --prefix=<INSTALL_DIR> --enable-custom-modes
+    BUILD_IN_SOURCE 1
     )
-elseif(WIN32)  
+elseif(WIN32)
+
   ExternalProject_Add(
     opus
     GIT_REPOSITORY https://github.com/roxlu/opus.git
-    GIT_SHALLOW 1
-    UPDATE_COMMAND ""
-    INSTALL_COMMAND ""
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
     )
 endif()
 
@@ -72,7 +71,7 @@ include_directories(${install_dir}/include)
 if (APPLE)
   list(APPEND libs ${install_dir}/lib/libopus.a)
 elseif(WIN32)
-  list(APPEND libs ${install_dir}/lib/opus.lib)
+  list(APPEND libs ${CMAKE_INSTALL_PREFIX}/lib/opus.lib)
 endif()
 
 # VideoSenderReceiver
@@ -92,7 +91,6 @@ link_directories(${source_dir}/lib)
 
 if (APPLE)
   list(APPEND libs "${vsr_lib_name}.a")
-elseif(WIN32)
 endif()
 
 # OS dependencies
@@ -128,6 +126,19 @@ if (APPLE)
     )
 
 elseif(WIN32)
+  
+  list(APPEND libs
+    Mfplat.lib
+    Mfuuid.lib
+    Mf.lib
+    Mfreadwrite.lib
+    Shlwapi.lib
+    Strmiids.lib
+    wmcodecdspuuid.lib
+    Avrt.lib
+    ws2_32.lib
+    )
+
 endif()
 
 # Project
