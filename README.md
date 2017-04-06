@@ -38,8 +38,6 @@ compilers on Windows and Mac. To use this library you first have to
 execute the _release.sh_ script that we provide. This will download
 and setup all the dependencies for the examples.
 
-### Compile the examples on Windows
-
 Make sure you have installed the prequisites. On Windows open a Git
 Bash terminal and on Mac just open a terminal and execute
 
